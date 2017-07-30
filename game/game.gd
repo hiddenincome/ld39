@@ -45,7 +45,7 @@ func _ready():
 
 
 	var npc = npc_template.instance()
-	npc.set_pos(Vector2(1000, 300))
+	npc.set_pos(npc_pos_1.get_pos())
 	npc_container.add_child(npc)
 
 func _process(delta):
