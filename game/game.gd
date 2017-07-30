@@ -31,10 +31,13 @@ var y_position = 1
 var x_position = 0
 var player_at_end = false
 
+var available_bottles = [0, 0, 0, 0]
+
 func _ready():
 	set_process(true)
 	set_process_input(true)
 	move_player()
+	start_level()
 	
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
@@ -52,6 +55,7 @@ func _process(delta):
 		x_position = max(0, x_position - 400 * delta)
 	move_player()
 	print(got_bottle)
+	
 func _input(event):
 	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0:
 		y_position = min(4, y_position + 1)
@@ -66,13 +70,16 @@ func _input(event):
 		var bottle = bottle_template.instance()
 		bottle.set_pos(bottle_positions[y_position-1].get_pos())
 		bottle_container.add_child(bottle)
+		player.play_throwing()
 		got_bottle = false
 	elif event.is_action_pressed("player_fire") and not got_bottle and player_at_end:
+		player.play_picking()
 		got_bottle = true
 	if x_position < 5:
 		player_at_end = true
 	elif x_position > 5:
 		player_at_end = false
+		
 func move_player():
 	if y_position == 1:
 		player.set_pos(player_pos_1.get_pos() + Vector2(x_position, 0))
@@ -83,3 +90,12 @@ func move_player():
 	elif y_position == 4:
 		player.set_pos(player_pos_4.get_pos() + Vector2(x_position, 0))
 		
+func start_level():
+	# Fill up the bottles
+	
+	available_bottles[0] = 1
+	available_bottles[1] = 2
+	available_bottles[2] = 3
+	available_bottles[3] = 4
+	
+	pass
