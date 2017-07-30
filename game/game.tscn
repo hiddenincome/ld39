@@ -62,22 +62,20 @@ transform/pos = Vector2( 222, 551.784 )
 
 [node name="npc_pos_1" type="Position2D" parent="."]
 
-transform/pos = Vector2( 1008.77, 154.242 )
-transform/scale = Vector2( 1, 1.21035 )
+transform/pos = Vector2( 1008.77, 168.356 )
+transform/scale = Vector2( 1, 1.0343 )
 
 [node name="npc_pos_2" type="Position2D" parent="."]
 
-transform/pos = Vector2( 1013.42, 269.716 )
-transform/scale = Vector2( 1.03961, 0.985836 )
+transform/pos = Vector2( 1013.42, 285.937 )
+transform/scale = Vector2( 1.03961, 1 )
 
 [node name="npc_pos_3" type="Position2D" parent="."]
 
-transform/pos = Vector2( 1014.49, 386.398 )
-transform/scale = Vector2( 1, 1.05116 )
+transform/pos = Vector2( 1014.49, 401.586 )
 
 [node name="npc_pos_4" type="Position2D" parent="."]
 
-transform/pos = Vector2( 1013.53, 502.844 )
-transform/scale = Vector2( 1, 0.922067 )
+transform/pos = Vector2( 1013.53, 517.369 )
 
 

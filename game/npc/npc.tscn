@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://game/npc/npc.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/Npc_1_non_make_upped.png" type="Texture" id=2]
 [ext_resource path="res://game/assets/Npc_non_make_upped_walk.png" type="Texture" id=3]
+[ext_resource path="res://game/assets/Npc_1_make_upped.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -12,7 +13,7 @@ extents = Vector2( 24.4111, 26.2204 )
 [sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0

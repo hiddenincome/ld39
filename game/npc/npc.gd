@@ -9,7 +9,12 @@ onready var sprite = get_node("sprite")
 
 var state = 0
 
+func dead():
+	move_timer.stop()
+	sprite.set_frame(2)
+
 func _ready():
+	
 	# Called every time the node is added to the scene.
 	# Initialization here
 	move_timer.start()
