@@ -87,6 +87,22 @@ wait_time = 1.0
 one_shot = false
 autostart = false
 
+[node name="box_pos_1" type="Position2D" parent="."]
+
+transform/pos = Vector2( 99.3704, 212.587 )
+
+[node name="box_pos_2" type="Position2D" parent="."]
+
+transform/pos = Vector2( 99.3704, 332.321 )
+
+[node name="box_pos_3" type="Position2D" parent="."]
+
+transform/pos = Vector2( 100.185, 454.497 )
+
+[node name="box_pos_4" type="Position2D" parent="."]
+
+transform/pos = Vector2( 96.1123, 565.271 )
+
 [connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
 
 
