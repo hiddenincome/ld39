@@ -6,24 +6,37 @@ onready var player_pos_2 = get_node("player_pos_2")
 onready var player_pos_3 = get_node("player_pos_3")
 onready var player_pos_4 = get_node("player_pos_4")
 onready var bottle_pos_1 = get_node("bottle_pos_1")
+onready var bottle_pos_2 = get_node("bottle_pos_2")
+onready var bottle_pos_3 = get_node("bottle_pos_3")
+onready var bottle_pos_4 = get_node("bottle_pos_4")
 onready var player = get_node("player")
 onready var jump_timer = get_node("jump_timer")
 onready var bottle_container = get_node("bottle_container")
+
+onready var bottle_positions = [
+	bottle_pos_1,
+	bottle_pos_2,
+	bottle_pos_3,
+	bottle_pos_4]
 
 var bottle_template = preload("res://game/powder_box/bottle.tscn")
 
 var got_bottle = true
 var y_position = 1
 var x_position = 300
+var player_at_end = false
+
+
 
 func _ready():
 	set_process(true)
 	set_process_input(true)
 	move_player()
 	
-	var bottle = bottle_template.instance()
-	bottle.set_pos(bottle_pos_1.get_pos())
-	bottle_container.add_child(bottle)
+	#var bottle = bottle_template.instance()
+	#bottle.set_pos(bottle_pos_1.get_pos())
+	#bottle_container.add_child(bottle)
+
 
 
 
@@ -44,9 +57,17 @@ func _input(event):
 		y_position = max(1, y_position - 1)
 		x_position = 0
 		jump_timer.start()
-	if event.is_action_pressed("player_fire") and got_bottle:
-		bottle_template.instance()
+	if event.is_action_pressed("player_fire") and got_bottle and player_at_end:
+		var bottle = bottle_template.instance()
+		bottle.set_pos(bottle_positions[y_position-1].get_pos())
+		bottle_container.add_child(bottle)
 		got_bottle = false
+	elif event.is_action_pressed("player_fire") and not got_bottle and player_at_end:
+		got_bottle = true
+	if x_position < 5:
+		player_at_end = true
+	elif x_position > 5:
+		player_at_end = false
 func move_player():
 	if y_position == 1:
 		player.set_pos(player_pos_1.get_pos() + Vector2(x_position, 0))
