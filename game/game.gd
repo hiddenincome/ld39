@@ -27,6 +27,7 @@ onready var box_positions = [
 	box_pos_2,
 	box_pos_3,
 	box_pos_4]
+onready var npc_spawn_timer = get_node("npc_spawn_timer")
 
 onready var bottle_positions = [
 	bottle_pos_1,
@@ -39,6 +40,8 @@ var npc_template = preload("res://game/npc/npc.tscn")
 
 enum player_states {IDLE, RUNNING, PICKING, THROWING}
 var player_state = IDLE
+var enemy_total = 20
+
 var got_bottle = true
 var y_position = 1
 var x_position = 0
@@ -51,15 +54,13 @@ func _ready():
 	set_process_input(true)
 	move_player()
 	start_level()
-	
+	npc_spawn_timer.start()
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
 	#bottle_container.add_child(bottle)
 
 
-	var npc = npc_template.instance()
-	npc.set_pos(npc_pos_1.get_pos())
-	npc_container.add_child(npc)
+	
 
 func _process(delta):
 	if Input.is_action_pressed("player_right"):
@@ -126,3 +127,8 @@ func start_level():
 	available_bottles[3] = 4
 	
 	pass
+
+func _on_npc_spawn_timer_timeout():
+	var npc = npc_template.instance()
+	npc.set_pos(npc_pos_1.get_pos())
+	npc_container.add_child(npc)
