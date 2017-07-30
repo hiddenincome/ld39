@@ -18,7 +18,6 @@ autostart = false
 [node name="background" type="Sprite" parent="."]
 
 transform/pos = Vector2( 512, 320 )
-transform/scale = Vector2( 4, 4 )
 texture = ExtResource( 2 )
 
 [node name="player_pos_1" type="Position2D" parent="."]
