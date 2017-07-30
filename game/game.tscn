@@ -38,7 +38,7 @@ transform/pos = Vector2( 175, 582 )
 
 [node name="player" parent="." instance=ExtResource( 3 )]
 
-transform/pos = Vector2( 165.348, 342.439 )
+transform/pos = Vector2( 45.0301, 371.905 )
 
 [node name="bottle_pos_1" type="Position2D" parent="."]
 
