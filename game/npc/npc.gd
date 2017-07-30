@@ -35,14 +35,14 @@ func _on_move_timer_timeout():
 	elif state == 2:
 		pass
 	elif state == 3:
-		set_pos(get_pos() + Vector2(-10,0))
+		set_pos(get_pos() + Vector2(-15,0))
 		sprite.set_frame(1)
 	elif state == 4:
-		set_pos(get_pos() + Vector2(-10,0))
+		set_pos(get_pos() + Vector2(-15,0))
 	elif state == 5:
-		set_pos(get_pos() + Vector2(-10,0))
+		set_pos(get_pos() + Vector2(-15,0))
 		sprite.set_frame(0)
 	elif state == 6:
-		set_pos(get_pos() + Vector2(-10,0))
+		set_pos(get_pos() + Vector2(-15,0))
 	elif state == 7:
 		pass

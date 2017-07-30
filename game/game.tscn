@@ -80,4 +80,13 @@ transform/scale = Vector2( 1, 1.05116 )
 transform/pos = Vector2( 1013.53, 502.844 )
 transform/scale = Vector2( 1, 0.922067 )
 
+[node name="npc_spawn_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
+
 
