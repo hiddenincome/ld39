@@ -1,10 +1,15 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://game/npc/npc.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/Npc_1_non_make_upped.png" type="Texture" id=2]
 [ext_resource path="res://game/assets/Npc_non_make_upped_walk.png" type="Texture" id=3]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 24.4111, 26.2204 )
+
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
@@ -16,6 +21,9 @@ animations = [ {
 [node name="npc" type="Area2D"]
 
 input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
@@ -24,7 +32,7 @@ script/script = ExtResource( 1 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 animation = "default"
 
 [node name="move_timer" type="Timer" parent="."]
@@ -33,6 +41,12 @@ process_mode = 1
 wait_time = 0.1
 one_shot = false
 autostart = false
+
+[node name="collision" type="CollisionShape2D" parent="."]
+
+shape = SubResource( 1 )
+trigger = true
+_update_shape_index = 0
 
 [connection signal="timeout" from="move_timer" to="." method="_on_move_timer_timeout"]
 
