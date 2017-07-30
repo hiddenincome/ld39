@@ -54,7 +54,7 @@ func _process(delta):
 	if Input.is_action_pressed("player_left"):
 		x_position = max(0, x_position - 400 * delta)
 	move_player()
-	print(got_bottle)
+	#print(got_bottle)
 	
 func _input(event):
 	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0:
