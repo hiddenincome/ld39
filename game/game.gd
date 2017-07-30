@@ -1,6 +1,9 @@
 extends Node
 
-
+onready var npc_pos_1 = get_node("npc_pos_1")
+onready var npc_pos_2 = get_node("npc_pos_2")
+onready var npc_pos_3 = get_node("npc_pos_3")
+onready var npc_pos_4 = get_node("npc_pos_4")
 onready var player_pos_1 = get_node("player_pos_1")
 onready var player_pos_2 = get_node("player_pos_2")
 onready var player_pos_3 = get_node("player_pos_3")
@@ -9,12 +12,14 @@ onready var bottle_pos_1 = get_node("bottle_pos_1")
 onready var player = get_node("player")
 onready var jump_timer = get_node("jump_timer")
 onready var bottle_container = get_node("bottle_container")
+onready var npc_container = get_node("npc_container")
 
 var bottle_template = preload("res://game/powder_box/bottle.tscn")
+var npc_template = preload("res://game/npc/npc.tscn")
 
 var got_bottle = true
 var y_position = 1
-var x_position = 300
+var x_position = 0
 
 func _ready():
 	set_process(true)
@@ -25,7 +30,9 @@ func _ready():
 	bottle.set_pos(bottle_pos_1.get_pos())
 	bottle_container.add_child(bottle)
 
-
+	var npc = npc_template.instance()
+	npc.set_pos(Vector2(1000, 300))
+	npc_container.add_child(npc)
 
 func _process(delta):
 	if Input.is_action_pressed("player_right"):
