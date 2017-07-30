@@ -16,6 +16,17 @@ onready var player = get_node("player")
 onready var jump_timer = get_node("jump_timer")
 onready var bottle_container = get_node("bottle_container")
 onready var npc_container = get_node("npc_container")
+onready var box_pos_1 = get_node("box_pos_1")
+onready var box_pos_2 = get_node("box_pos_2")
+onready var box_pos_3 = get_node("box_pos_3")
+onready var box_pos_4 = get_node("box_pos_4")
+
+
+onready var box_positions = [
+	box_pos_1,
+	box_pos_2,
+	box_pos_3,
+	box_pos_4]
 
 onready var bottle_positions = [
 	bottle_pos_1,
@@ -26,6 +37,8 @@ onready var bottle_positions = [
 var bottle_template = preload("res://game/powder_box/bottle.tscn")
 var npc_template = preload("res://game/npc/npc.tscn")
 
+enum player_states {IDLE, RUNNING, PICKING, THROWING}
+var player_state = IDLE
 var got_bottle = true
 var y_position = 1
 var x_position = 0
@@ -55,41 +68,55 @@ func _process(delta):
 		x_position = max(0, x_position - 400 * delta)
 	move_player()
 	#print(got_bottle)
-	
+
+	if player_state == PICKING:
+		if not player.is_animating():
+			player_state = IDLE
+	if player_state == IDLE:
+		player.play_idle()
+		
+		
+				
 func _input(event):
-	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0:
+	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
 		y_position = min(4, y_position + 1)
 		x_position = 0
 		jump_timer.start()
 		#move_player()
-	if event.is_action_pressed("player_up") and jump_timer.get_time_left() == 0:
+	if event.is_action_pressed("player_up") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
 		y_position = max(1, y_position - 1)
 		x_position = 0
 		jump_timer.start()
-	if event.is_action_pressed("player_fire") and got_bottle and player_at_end:
+	if event.is_action_pressed("player_fire") and got_bottle and player_at_end and not player_state == PICKING:
 		var bottle = bottle_template.instance()
 		bottle.set_pos(bottle_positions[y_position-1].get_pos())
 		bottle_container.add_child(bottle)
 		player.play_throwing()
 		got_bottle = false
 	elif event.is_action_pressed("player_fire") and not got_bottle and player_at_end:
+		player_state = PICKING
 		player.play_picking()
 		got_bottle = true
 	if x_position < 5:
 		player_at_end = true
 	elif x_position > 5:
 		player_at_end = false
+
 		
 func move_player():
-	if y_position == 1:
-		player.set_pos(player_pos_1.get_pos() + Vector2(x_position, 0))
-	elif y_position == 2:
-		player.set_pos(player_pos_2.get_pos() + Vector2(x_position, 0))
-	elif y_position == 3:
-		player.set_pos(player_pos_3.get_pos() + Vector2(x_position, 0))
-	elif y_position == 4:
-		player.set_pos(player_pos_4.get_pos() + Vector2(x_position, 0))
-		
+	if player_state == IDLE or player_state == RUNNING:
+		if y_position == 1:
+			player.set_pos(player_pos_1.get_pos() + Vector2(x_position, 0))
+		elif y_position == 2:
+			player.set_pos(player_pos_2.get_pos() + Vector2(x_position, 0))
+		elif y_position == 3:
+			player.set_pos(player_pos_3.get_pos() + Vector2(x_position, 0))
+		elif y_position == 4:
+			player.set_pos(player_pos_4.get_pos() + Vector2(x_position, 0))
+	elif player_state == PICKING:
+		player.set_pos(box_positions[y_position-1].get_pos())
+
+
 func start_level():
 	# Fill up the bottles
 	
