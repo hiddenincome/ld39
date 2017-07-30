@@ -11,7 +11,7 @@ script/script = ExtResource( 1 )
 [node name="jump_timer" type="Timer" parent="."]
 
 process_mode = 1
-wait_time = 0.21
+wait_time = 0.43
 one_shot = true
 autostart = false
 
@@ -88,21 +88,5 @@ one_shot = false
 autostart = false
 
 [connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
-
-[node name="box_pos_1" type="Position2D" parent="."]
-
-transform/pos = Vector2( 114.081, 189.911 )
-
-[node name="box_pos_2" type="Position2D" parent="."]
-
-transform/pos = Vector2( 113.781, 304.816 )
-
-[node name="box_pos_3" type="Position2D" parent="."]
-
-transform/pos = Vector2( 118.496, 420.554 )
-
-[node name="box_pos_4" type="Position2D" parent="."]
-
-transform/pos = Vector2( 118.37, 534.005 )
 
 
