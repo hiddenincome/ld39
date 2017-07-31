@@ -2,18 +2,20 @@ extends Area2D
 
 onready var sprite = get_node("sprite")
 onready var bottle = get_node("bottle")
+onready var explode = get_node("explode")
+onready var player_effect = get_node("player_effect")
 
 var animating = false
 
-
-
-
-	
-
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	pass
+
+func play_explode():
+	explode.show()
+	explode.set_frame(0)
+	explode.play("explode")
+	player_effect.interpolate_property(sprite, 'visibility/opacity', 1.0, 0.0, 2.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	player_effect.start()
 
 func play_idle(has_bottle):
 	sprite.set_flip_h(false)
@@ -29,22 +31,18 @@ func play_running(right):
 	sprite.set_flip_h(not right)
 	bottle.hide()
 	animating = true
-	#sprite.set_frame(0)
 	sprite.play("run")
-	pass
 	
 func play_picking():
 	sprite.set_flip_h(false)
 	bottle.hide()
 	animating = true
-	#sprite.set_frame(0)
 	sprite.play("pick up")
 	
 func play_throwing():
 	sprite.set_flip_h(false)
 	bottle.hide()
 	animating = true
-	#sprite.set_frame(0)
 	sprite.play("throw")
 	
 func _on_sprite_finished():
@@ -52,3 +50,9 @@ func _on_sprite_finished():
 	
 func is_animating():
 	return animating	
+
+func _on_explode_finished():
+	explode.hide()
+
+func _on_player_effect_tween_complete(object, key):
+	sprite.set_opacity(1.0)

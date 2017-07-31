@@ -1,12 +1,27 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=25 format=1]
 
 [ext_resource path="res://game/player/player.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/Powder_bottle_1.png" type="Texture" id=2]
 [ext_resource path="res://game/assets/player_0.png" type="Texture" id=3]
 [ext_resource path="res://game/assets/player_3.png" type="Texture" id=4]
-[ext_resource path="res://game/assets/player_6.png" type="Texture" id=5]
-[ext_resource path="res://game/assets/player_7.png" type="Texture" id=6]
-[ext_resource path="res://game/assets/player_1.png" type="Texture" id=7]
+[ext_resource path="res://game/assets/player_1.png" type="Texture" id=5]
+[ext_resource path="res://game/assets/player_6.png" type="Texture" id=6]
+[ext_resource path="res://game/assets/player_7.png" type="Texture" id=7]
+[ext_resource path="res://game/assets/explosion_00.png" type="Texture" id=8]
+[ext_resource path="res://game/assets/explosion_01.png" type="Texture" id=9]
+[ext_resource path="res://game/assets/explosion_02.png" type="Texture" id=10]
+[ext_resource path="res://game/assets/explosion_03.png" type="Texture" id=11]
+[ext_resource path="res://game/assets/explosion_04.png" type="Texture" id=12]
+[ext_resource path="res://game/assets/explosion_05.png" type="Texture" id=13]
+[ext_resource path="res://game/assets/explosion_06.png" type="Texture" id=14]
+[ext_resource path="res://game/assets/explosion_07.png" type="Texture" id=15]
+[ext_resource path="res://game/assets/explosion_08.png" type="Texture" id=16]
+[ext_resource path="res://game/assets/explosion_09.png" type="Texture" id=17]
+[ext_resource path="res://game/assets/explosion_10.png" type="Texture" id=18]
+[ext_resource path="res://game/assets/explosion_11.png" type="Texture" id=19]
+[ext_resource path="res://game/assets/explosion_12.png" type="Texture" id=20]
+[ext_resource path="res://game/assets/explosion_13.png" type="Texture" id=21]
+[ext_resource path="res://game/assets/explosion_14.png" type="Texture" id=22]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -21,15 +36,24 @@ animations = [ {
 "name": "throw",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 6 ) ],
-"loop": false,
-"name": "pick up",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 3 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 3 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "run",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "pick up",
+"speed": 12.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "explode",
+"speed": 25.0
 } ]
 
 [node name="player" type="Area2D"]
@@ -54,6 +78,23 @@ frames = SubResource( 1 )
 animation = "idle"
 playing = true
 
+[node name="explode" type="AnimatedSprite" parent="."]
+
+visibility/visible = false
+frames = SubResource( 2 )
+animation = "explode"
+
+[node name="player_effect" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
 [connection signal="finished" from="sprite" to="." method="_on_sprite_finished"]
+
+[connection signal="finished" from="explode" to="." method="_on_explode_finished"]
+
+[connection signal="tween_complete" from="player_effect" to="." method="_on_player_effect_tween_complete"]
 
 

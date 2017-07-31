@@ -89,7 +89,7 @@ onready var level_effect = get_node("level_effect")
 
 onready var game_over_sign = get_node("game_over_sign")
 
-enum player_states {IDLE, RUNNING_LEFT, RUNNING_RIGHT, PICKING, THROWING}
+enum player_states {IDLE, RUNNING_LEFT, RUNNING_RIGHT, PICKING, THROWING, EXPLODING}
 var player_state = IDLE
 
 enum game_states {GAME_IDLE, GAME_RUNNING, GAME_OVER}
@@ -243,6 +243,8 @@ func remove_instances():
 
 func _on_life_lost():
 	lives -= 1 
+	player.play_explode()
+	player_state = EXPLODING
 	show_lives()
 	if lives == 0:
 		game_state = GAME_OVER
