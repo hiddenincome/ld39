@@ -6,6 +6,8 @@ onready var text_1_effect = get_node("text_1_effect")
 onready var text_2_effect = get_node("text_2_effect")
 onready var sample_player = get_node("sample_player")
 
+onready var game_scene = preload("res://game/game.tscn")
+
 var lines =	["IT IS BRENDA'S FIRST DAY ON THE JOB     WORKING FOR THE MAN",
 "AND THE BOSS DECIDED IT WAS TIME FOR    A SALE!",
 "TOO BAD THE AD STATED A 100% DISCOUNT   INSTEAD OF 10%...",
@@ -24,6 +26,7 @@ func _ready():
 	text_2_effect.interpolate_property(text_2, 'visibility/opacity', 0.0, 1.0, FADE_TIMEOUT, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	text_1_effect.start()
 	text_2_effect.start()
+	set_process_input(true)
 		
 func set_text():
 	text_1.set_text(lines[line_index].left(40))
@@ -52,3 +55,7 @@ func _on_text_1_effect_tween_complete( object, key ):
 
 		text_2_effect.interpolate_property(text_2, 'visibility/opacity', 0.0, 1.0, FADE_TIMEOUT, Tween.TRANS_QUAD, Tween.EASE_OUT)
 		text_2_effect.start()
+		
+func _input(event):
+	if event.type == InputEvent.KEY:
+		get_tree().change_scene_to(game_scene)
