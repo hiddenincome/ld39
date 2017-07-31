@@ -142,7 +142,7 @@ func _process(delta):
 
 	move_player()
 
-	if not player_state == PICKING and x_position < 10:
+	if not (player_state == PICKING or player_state == THROWING) and x_position < 10:
 		player_state = IDLE
 
 	if player_state == PICKING:
@@ -154,6 +154,9 @@ func _process(delta):
 		player.play_running(false)
 	elif player_state == RUNNING_RIGHT:
 		player.play_running(true)
+	elif player_state == THROWING:
+		if not player.is_animating():
+			player_state = IDLE
 		
 	if npc_amount == 0 and npc_container.get_children().size() == 0:
 		level += 1
@@ -169,20 +172,21 @@ func _input(event):
 	if game_state != GAME_RUNNING:
 		return	
 	
-	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
+	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not (player_state == PICKING or player_state == THROWING):
 		y_position = min(4, y_position + 1)
 		x_position = 0
 		jump_timer.start()
 		#move_player()
-	if event.is_action_pressed("player_up") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
+	if event.is_action_pressed("player_up") and jump_timer.get_time_left() == 0 and not (player_state == PICKING or player_state == THROWING):
 		y_position = max(1, y_position - 1)
 		x_position = 0
 		jump_timer.start()
-	if event.is_action_pressed("player_fire") and got_bottle and player_at_end and not player_state == PICKING:
+	if event.is_action_pressed("player_fire") and got_bottle and player_at_end and not (player_state == PICKING or player_state == THROWING):
 		var bottle = bottle_template.instance()
 		bottle.connect("bottle_picked_up", self, "_on_bottle_picked_up")
 		bottle.set_pos(bottle_positions[y_position-1].get_pos())
 		bottle_container.add_child(bottle)
+		player_state = THROWING
 		player.play_throwing()
 		got_bottle = false
 	elif event.is_action_pressed("player_fire") and not got_bottle and player_at_end:
