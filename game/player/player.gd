@@ -6,6 +6,7 @@ onready var explode = get_node("explode")
 onready var player_effect = get_node("player_effect")
 
 var animating = false
+var alive = true
 
 func _ready():
 	pass
@@ -15,6 +16,7 @@ func play_explode():
 	explode.set_frame(0)
 	explode.play("explode")
 	player_effect.interpolate_property(sprite, 'visibility/opacity', 1.0, 0.0, 2.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	player_effect.interpolate_property(bottle, 'visibility/opacity', 1.0, 0.0, 2.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	player_effect.start()
 
 func play_idle(has_bottle):
@@ -55,4 +57,12 @@ func _on_explode_finished():
 	explode.hide()
 
 func _on_player_effect_tween_complete(object, key):
-	sprite.set_opacity(1.0)
+	if alive:
+		sprite.set_opacity(1.0)
+		bottle.set_opacity(1.0)
+	
+func set_alive(a):
+	alive = a
+	if alive:
+		sprite.set_opacity(1.0)
+		bottle.set_opacity(1.0)

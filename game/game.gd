@@ -93,8 +93,10 @@ onready var game_over_sign = get_node("game_over_sign")
 enum player_states {IDLE, RUNNING_LEFT, RUNNING_RIGHT, PICKING, THROWING, EXPLODING}
 var player_state = IDLE
 
-enum game_states {GAME_IDLE, GAME_RUNNING, GAME_OVER}
-var game_state = GAME_IDLE
+enum game_states {GAME_WAIT_FOR_START, GAME_RUNNING, GAME_OVER}
+var game_state = GAME_WAIT_FOR_START
+
+onready var cooldown_timer = get_node("cooldown_timer")
 
 var got_bottle = false
 var level = 1
@@ -171,12 +173,10 @@ func _process(delta):
 
 func _input(event):
 
-	if game_state == GAME_OVER:
+	if game_state == GAME_WAIT_FOR_START:
 		if event.type == InputEvent.KEY:
 			start_game()
-		return
-	
-	if game_state != GAME_RUNNING:
+	elif game_state == GAME_OVER:
 		return	
 	
 	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not (player_state == PICKING or player_state == THROWING):
@@ -225,10 +225,17 @@ func move_player():
 		player.set_pos(box_positions[y_position-1].get_pos())
 
 func start_game():
+	game_over_sign.hide()
 	sample_player.play("background_1")
 	lives = 3
+	score = 0
+	score_label.set_text("SCORE %d" % score)
+	show_lives()
+	show_level()
 	start_level()
+	npc_spawn_timer.start()
 	game_state = GAME_RUNNING
+	player.set_alive(true)
 
 func start_level():
 	
@@ -266,6 +273,9 @@ func _on_life_lost():
 		game_over_sign.show()
 		remove_instances()
 		sample_player.play("intro")
+		player.set_alive(false)
+		cooldown_timer.start()
+
 	else:
 		start_level()
 	
@@ -328,3 +338,6 @@ func update_score():
 func _on_bottle_picked_up():
 	score += 100
 	update_score()
+
+func _on_cooldown_timer_timeout():
+	game_state = GAME_WAIT_FOR_START
