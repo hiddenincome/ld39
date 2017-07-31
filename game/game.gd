@@ -133,6 +133,10 @@ func _process(delta):
 		level += 1
 		start_level()
 		show_level()
+		
+	for bottle in bottle_container.get_children():
+		if bottle.get_pos().x > 1100:
+			bottle.queue_free()
 
 func _input(event):
 	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
