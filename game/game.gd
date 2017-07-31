@@ -87,7 +87,7 @@ onready var level_effect = get_node("level_effect")
 
 onready var game_over_sign = get_node("game_over_sign")
 
-enum player_states {IDLE, RUNNING, PICKING, THROWING}
+enum player_states {IDLE, RUNNING_LEFT, RUNNING_RIGHT, PICKING, THROWING}
 var player_state = IDLE
 
 enum game_states {GAME_IDLE, GAME_RUNNING, GAME_OVER}
@@ -127,17 +127,31 @@ func _process(delta):
 		return
 	
 	if Input.is_action_pressed("player_right"):
-		x_position = min(800, x_position + 400 * delta)
-	if Input.is_action_pressed("player_left"):
-		x_position = max(0, x_position - 400 * delta)
+		x_position = min(800, x_position + 800 * delta)
+		player_state = RUNNING_RIGHT
+		
+	elif Input.is_action_pressed("player_left"):
+		x_position = max(0, x_position - 800 * delta)
+		player_state = RUNNING_LEFT
+		
+	elif x_position > 10:
+		player_state = IDLE
+
 	move_player()
 	#print(got_bottle)
+
+	if not player_state == PICKING and x_position < 10:
+		player_state = IDLE
 
 	if player_state == PICKING:
 		if not player.is_animating():
 			player_state = IDLE
-	if player_state == IDLE:
+	elif player_state == IDLE:
 		player.play_idle(got_bottle)
+	elif player_state == RUNNING_LEFT:
+		player.play_running(false)
+	elif player_state == RUNNING_RIGHT:
+		player.play_running(true)
 		
 	if npc_amount == 0 and npc_container.get_children().size() == 0:
 		level += 1
@@ -185,19 +199,15 @@ func _input(event):
 	print(available_bottles)
 		
 func move_player():
-	if player_state == IDLE or player_state == RUNNING:
+	if player_state == IDLE or player_state == RUNNING_LEFT or player_state == RUNNING_RIGHT:
 		if y_position == 1:
 			player.set_pos(player_pos_1.get_pos() + Vector2(x_position, 0))
-			player_state = RUNNING
 		elif y_position == 2:
 			player.set_pos(player_pos_2.get_pos() + Vector2(x_position, 0))
-			player_state = RUNNING
 		elif y_position == 3:
 			player.set_pos(player_pos_3.get_pos() + Vector2(x_position, 0))
-			player_state = RUNNING
 		elif y_position == 4:
 			player.set_pos(player_pos_4.get_pos() + Vector2(x_position, 0))
-			player_state = RUNNING
 	elif player_state == PICKING:
 		player.set_pos(box_positions[y_position-1].get_pos())
 
