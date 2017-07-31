@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/background_1.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://game/assets/number_signs_9.png" type="Texture" id=4]
 [ext_resource path="res://game/assets/player_8.png" type="Texture" id=5]
 [ext_resource path="res://game/assets/background_1.smp" type="Sample" id=6]
+[ext_resource path="res://game/assets/kenpixel.ttf" type="DynamicFontData" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -35,6 +36,13 @@ samples/background_1 = {
 "priority": 0,
 "sample": ExtResource( 6 )
 }
+
+[sub_resource type="DynamicFont" id=6]
+
+font/size = 96
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 7 )
 
 [node name="game" type="Node"]
 
@@ -268,6 +276,31 @@ default/filter/gain = 1.0
 default/reverb_room = 2
 default/reverb_send = 0.0
 default/chorus_send = 0.0
+
+[node name="level_label" type="Label" parent="."]
+
+visibility/opacity = 0.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 336.0
+margin/top = 248.0
+margin/right = 744.0
+margin/bottom = 392.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.890625, 0.958984, 1, 1 )
+text = "LEVEL 1"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="level_effect" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 [connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
 

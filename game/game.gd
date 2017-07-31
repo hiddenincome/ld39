@@ -80,6 +80,9 @@ var npc_template = preload("res://game/npc/npc.tscn")
 
 onready var sample_player = get_node("sample_player")
 
+onready var level_label = get_node("level_label")
+onready var level_effect = get_node("level_effect")
+
 enum player_states {IDLE, RUNNING, PICKING, THROWING}
 var player_state = IDLE
 
@@ -102,14 +105,12 @@ func _ready():
 	start_level()
 	update_number_signs()
 	update_lifes()
+	show_level()
 	npc_spawn_timer.start()
 	sample_player.play("background_1")
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
 	#bottle_container.add_child(bottle)
-
-
-	
 
 func _process(delta):
 	if Input.is_action_pressed("player_right"):
@@ -124,9 +125,7 @@ func _process(delta):
 			player_state = IDLE
 	if player_state == IDLE:
 		player.play_idle(got_bottle)
-		
-		
-				
+
 func _input(event):
 	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
 		y_position = min(4, y_position + 1)
@@ -261,3 +260,9 @@ func update_lifes():
 		life_2_sprite.set_texture(dead_texture)
 		life_3_sprite.set_texture(dead_texture)
 		
+func show_level():
+	level_label.set_text("LEVEL %d" % level)
+	level_effect.interpolate_property(level_label, 'visibility/opacity', 1.0, 0.0, 2.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	level_effect.start()
+
+	
