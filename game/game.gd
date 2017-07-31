@@ -125,6 +125,11 @@ func _process(delta):
 			player_state = IDLE
 	if player_state == IDLE:
 		player.play_idle(got_bottle)
+		
+	if npc_amount == 0 and npc_container.get_children().size() == 0:
+		level += 1
+		start_level()
+		show_level()
 
 func _input(event):
 	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
@@ -172,7 +177,7 @@ func move_player():
 
 func start_level():
 	# Fill up the bottles
-	npc_amount = level * 20
+	npc_amount = level * 1
 	var median = npc_amount / 4
 	var sum = 0 
 	for i in range(3):
@@ -191,10 +196,17 @@ func start_level():
 	
 	pass
 
+func _on_life_lost():
+	lifes -= 1 
+	print("life_lost")
+	update_lifes()
+	
+
 func _on_npc_spawn_timer_timeout():
 	if npc_amount > 0:
 		var npc = npc_template.instance()
 		var random_npc_spawn = randi()%4+1
+		npc.connect("life_lost", self, "_on_life_lost")
 		if random_npc_spawn == 1:
 			npc.set_pos(npc_pos_1.get_pos())
 			npc_amount -= 1
@@ -242,6 +254,9 @@ func update_number_signs():
 			number_sign_container[i].set_texture(number_texture_container[9])
 	print(available_bottles)
 	
+func life_lost():
+	lifes -= 1
+	
 func update_lifes():
 	if lifes == 3:
 		life_1_sprite.set_texture(living_texture)
@@ -259,6 +274,11 @@ func update_lifes():
 		life_1_sprite.set_texture(dead_texture)
 		life_2_sprite.set_texture(dead_texture)
 		life_3_sprite.set_texture(dead_texture)
+	
+	if lifes == 0:
+		game_over()
+		print("you lost")
+		
 		
 func show_level():
 	level_label.set_text("LEVEL %d" % level)
