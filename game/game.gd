@@ -85,8 +85,13 @@ onready var score_label = get_node("score_label")
 onready var level_label = get_node("level_label")
 onready var level_effect = get_node("level_effect")
 
+onready var game_over_sign = get_node("game_over_sign")
+
 enum player_states {IDLE, RUNNING, PICKING, THROWING}
 var player_state = IDLE
+
+enum game_states {GAME_IDLE, GAME_RUNNING, GAME_OVER}
+var game_state = GAME_IDLE
 
 var got_bottle = false
 var level = 1
@@ -97,7 +102,7 @@ var player_at_end = false
 
 var available_bottles = [0, 0, 0, 0]
 
-var lifes = 3
+var lives = 3
 var score = 0
 
 func _ready():
@@ -105,17 +110,22 @@ func _ready():
 	set_process_input(true)
 	move_player()
 	randomize()
-	start_level()
+	start_game()
 	update_number_signs()
-	update_lifes()
+	show_lives()
 	show_level()
 	npc_spawn_timer.start()
 	sample_player.play("background_1")
+	game_over_sign.hide()
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
 	#bottle_container.add_child(bottle)
 
 func _process(delta):
+	
+	if game_state != GAME_RUNNING:
+		return
+	
 	if Input.is_action_pressed("player_right"):
 		x_position = min(800, x_position + 400 * delta)
 	if Input.is_action_pressed("player_left"):
@@ -139,6 +149,10 @@ func _process(delta):
 			bottle.queue_free()
 
 func _input(event):
+	
+	if game_state != GAME_RUNNING:
+		return	
+	
 	if event.is_action_pressed("player_down") and jump_timer.get_time_left() == 0 and not player_state == PICKING:
 		y_position = min(4, y_position + 1)
 		x_position = 0
@@ -183,7 +197,15 @@ func move_player():
 	elif player_state == PICKING:
 		player.set_pos(box_positions[y_position-1].get_pos())
 
+func start_game():
+	lives = 3
+	start_level()
+	game_state = GAME_RUNNING
+
 func start_level():
+	
+	remove_instances()
+	
 	# Fill up the bottles
 	npc_amount = level * 2 + 20
 	var median = npc_amount / 4
@@ -196,22 +218,25 @@ func start_level():
 	available_bottles[3] = npc_amount - sum
 	
 	update_number_signs()
-	
-	
-	
-	#available_bottles[0] = 1
-	#available_bottles[1] = 2
-	#available_bottles[2] = 3
-	#available_bottles[3] = 4
-	
-	pass
+
+func remove_instances():
+	for npc in npc_container.get_children():
+		npc.queue_free()
+		
+	for bottle in bottle_container.get_children():
+		bottle.queue_free()
 
 func _on_life_lost():
-	lifes -= 1 
-	print("life_lost")
-	update_lifes()
+	lives -= 1 
+	show_lives()
+	if lives == 0:
+		game_state = GAME_OVER
+		npc_spawn_timer.stop()
+		game_over_sign.show()
+		remove_instances()
+	else:
+		start_level()
 	
-
 func _on_npc_spawn_timer_timeout():
 	if npc_amount > 0:
 		var npc = npc_template.instance()
@@ -234,11 +259,6 @@ func _on_npc_spawn_timer_timeout():
 		print(npc_amount)
 	elif npc_amount < 1:
 		pass
-
-func game_over():
-	print("game_over")
-	lifes -= 1
-	update_lifes()
 	
 func update_number_signs():
 	for i in range(4):
@@ -248,31 +268,23 @@ func update_number_signs():
 			number_sign_container[i].set_texture(number_texture_container[9])
 	print(available_bottles)
 	
-func life_lost():
-	lifes -= 1
-	
-func update_lifes():
-	if lifes == 3:
+func show_lives():
+	if lives == 3:
 		life_1_sprite.set_texture(living_texture)
 		life_2_sprite.set_texture(living_texture)
 		life_3_sprite.set_texture(living_texture)
-	elif lifes == 2:
+	elif lives == 2:
 		life_1_sprite.set_texture(living_texture)
 		life_2_sprite.set_texture(living_texture)
 		life_3_sprite.set_texture(dead_texture)
-	elif lifes == 1:
+	elif lives == 1:
 		life_1_sprite.set_texture(living_texture)
 		life_2_sprite.set_texture(dead_texture)
 		life_3_sprite.set_texture(dead_texture)
 	else:
 		life_1_sprite.set_texture(dead_texture)
 		life_2_sprite.set_texture(dead_texture)
-		life_3_sprite.set_texture(dead_texture)
-	
-	if lifes == 0:
-		game_over()
-		print("you lost")
-		
+		life_3_sprite.set_texture(dead_texture)		
 		
 func show_level():
 	level_label.set_text("LEVEL %d" % level)

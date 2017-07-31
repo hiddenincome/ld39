@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/background_1.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://game/assets/player_8.png" type="Texture" id=5]
 [ext_resource path="res://game/assets/background_1.smp" type="Sample" id=6]
 [ext_resource path="res://game/assets/kenpixel.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://game/game_over/game_over.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -251,6 +252,8 @@ texture = ExtResource( 4 )
 
 [node name="lives" type="Node" parent="."]
 
+editor/display_folded = true
+
 [node name="life_1" type="Sprite" parent="lives"]
 
 transform/pos = Vector2( 903.5, 76.6387 )
@@ -323,6 +326,10 @@ text = "SCORE 0"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="game_over_sign" parent="." instance=ExtResource( 8 )]
+
+transform/pos = Vector2( 351.615, 180.452 )
 
 [connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
 
