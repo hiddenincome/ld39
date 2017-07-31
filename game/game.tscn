@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/background_1.png" type="Texture" id=2]
@@ -40,6 +40,13 @@ samples/background_1 = {
 [sub_resource type="DynamicFont" id=6]
 
 font/size = 96
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=7]
+
+font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 7 )
@@ -145,7 +152,6 @@ transform/pos = Vector2( 96.1123, 565.271 )
 
 [node name="game_over_1" type="Area2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 173.888, 162.853 )
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
@@ -302,8 +308,22 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
-[connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
+[node name="score_label" type="Label" parent="."]
 
-[connection signal="area_enter" from="game_over_1" to="." method="_on_game_over_1_area_enter"]
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 710.0
+margin/top = 531.0
+margin/right = 1017.0
+margin/bottom = 579.0
+custom_fonts/font = SubResource( 7 )
+text = "SCORE 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
 
 
