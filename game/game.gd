@@ -81,6 +81,7 @@ var bottle_template = preload("res://game/powder_box/bottle.tscn")
 var npc_template = preload("res://game/npc/npc.tscn")
 
 onready var sample_player = get_node("sample_player")
+onready var effect_player = get_node("effect_player")
 
 onready var score_label = get_node("score_label")
 
@@ -194,6 +195,7 @@ func _input(event):
 		bottle_container.add_child(bottle)
 		player_state = THROWING
 		player.play_throwing()
+		effect_player.play("whoosh")
 		got_bottle = false
 	elif event.is_action_pressed("player_fire") and not got_bottle and player_at_end:
 		player_state = PICKING
@@ -253,6 +255,7 @@ func remove_instances():
 		bottle.queue_free()
 
 func _on_life_lost():
+	effect_player.play("explosion")
 	lives -= 1 
 	player.play_explode()
 	player_state = EXPLODING
@@ -319,6 +322,7 @@ func show_level():
 	level_effect.start()
 	
 func update_score():
+	effect_player.play("pick_up")
 	score_label.set_text("SCORE %d" % score)
 
 func _on_bottle_picked_up():
