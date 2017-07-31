@@ -122,7 +122,6 @@ func move_player():
 	elif player_state == PICKING:
 		player.set_pos(box_positions[y_position-1].get_pos())
 
-
 func start_level():
 	# Fill up the bottles
 	
@@ -137,13 +136,13 @@ func _on_npc_spawn_timer_timeout():
 	var npc = npc_template.instance()
 	var random_npc_spawn = randi()%4+1
 	if random_npc_spawn == 1:
-		 npc.set_pos(npc_pos_1.get_pos())
+		npc.set_pos(npc_pos_1.get_pos())
 	elif random_npc_spawn == 2:
-		 npc.set_pos(npc_pos_2.get_pos())
+		npc.set_pos(npc_pos_2.get_pos())
 	elif random_npc_spawn == 3:
-		 npc.set_pos(npc_pos_3.get_pos())
+		npc.set_pos(npc_pos_3.get_pos())
 	elif random_npc_spawn == 4:
-		 npc.set_pos(npc_pos_4.get_pos())
+		npc.set_pos(npc_pos_4.get_pos())
 	npc_container.add_child(npc)
 
 func game_over():
