@@ -80,6 +80,8 @@ var npc_template = preload("res://game/npc/npc.tscn")
 
 onready var sample_player = get_node("sample_player")
 
+onready var score_label = get_node("score_label")
+
 onready var level_label = get_node("level_label")
 onready var level_effect = get_node("level_effect")
 
@@ -96,6 +98,7 @@ var player_at_end = false
 var available_bottles = [0, 0, 0, 0]
 
 var lifes = 3
+var score = 0
 
 func _ready():
 	set_process(true)
@@ -143,6 +146,7 @@ func _input(event):
 		jump_timer.start()
 	if event.is_action_pressed("player_fire") and got_bottle and player_at_end and not player_state == PICKING:
 		var bottle = bottle_template.instance()
+		bottle.connect("bottle_picked_up", self, "_on_bottle_picked_up")
 		bottle.set_pos(bottle_positions[y_position-1].get_pos())
 		bottle_container.add_child(bottle)
 		player.play_throwing()
@@ -177,7 +181,7 @@ func move_player():
 
 func start_level():
 	# Fill up the bottles
-	npc_amount = level * 1
+	npc_amount = level * 2 + 20
 	var median = npc_amount / 4
 	var sum = 0 
 	for i in range(3):
@@ -186,6 +190,8 @@ func start_level():
 		sum += bottles_in_this_box
 	
 	available_bottles[3] = npc_amount - sum
+	
+	update_number_signs()
 	
 	
 	
@@ -229,23 +235,6 @@ func game_over():
 	lifes -= 1
 	update_lifes()
 	
-
-func _on_game_over_1_area_enter( area ):
-	if area.get_name().find("npc") >= 0:
-		game_over()
-		
-func _on_game_over_2_area_enter( area ):
-	if area.get_name().find("npc") >= 0:
-		game_over()
-		
-func _on_game_over_3_area_enter( area ):
-	if area.get_name().find("npc") >= 0:
-		game_over()
-
-func _on_game_over_4_area_enter( area ):
-	if area.get_name().find("npc") >= 0:
-		game_over()
-		
 func update_number_signs():
 	for i in range(4):
 		if available_bottles[i] <= 9:
@@ -284,5 +273,10 @@ func show_level():
 	level_label.set_text("LEVEL %d" % level)
 	level_effect.interpolate_property(level_label, 'visibility/opacity', 1.0, 0.0, 2.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	level_effect.start()
-
 	
+func update_score():
+	score_label.set_text("SCORE %d" % score)
+
+func _on_bottle_picked_up():
+	score += 100
+	update_score()
