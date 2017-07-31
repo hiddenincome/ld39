@@ -78,6 +78,8 @@ onready var bottle_positions = [
 var bottle_template = preload("res://game/powder_box/bottle.tscn")
 var npc_template = preload("res://game/npc/npc.tscn")
 
+onready var sample_player = get_node("sample_player")
+
 enum player_states {IDLE, RUNNING, PICKING, THROWING}
 var player_state = IDLE
 var enemy_total = 20
@@ -100,6 +102,7 @@ func _ready():
 	update_lifes()
 	npc_spawn_timer.start()
 	randomize()
+	sample_player.play("background_1")
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
 	#bottle_container.add_child(bottle)
