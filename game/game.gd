@@ -188,12 +188,16 @@ func move_player():
 	if player_state == IDLE or player_state == RUNNING:
 		if y_position == 1:
 			player.set_pos(player_pos_1.get_pos() + Vector2(x_position, 0))
+			player_state = RUNNING
 		elif y_position == 2:
 			player.set_pos(player_pos_2.get_pos() + Vector2(x_position, 0))
+			player_state = RUNNING
 		elif y_position == 3:
 			player.set_pos(player_pos_3.get_pos() + Vector2(x_position, 0))
+			player_state = RUNNING
 		elif y_position == 4:
 			player.set_pos(player_pos_4.get_pos() + Vector2(x_position, 0))
+			player_state = RUNNING
 	elif player_state == PICKING:
 		player.set_pos(box_positions[y_position-1].get_pos())
 

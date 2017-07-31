@@ -27,6 +27,8 @@ func play_idle(has_bottle):
 func play_running():
 	bottle.hide()
 	animating = true
+	sprite.set_frame(0)
+	sprite.play("run")
 	pass
 	
 func play_picking():
