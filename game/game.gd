@@ -134,7 +134,15 @@ func start_level():
 
 func _on_npc_spawn_timer_timeout():
 	var npc = npc_template.instance()
-	npc.set_pos(npc_pos_1.get_pos())
+	var random_npc_spawn = randi()%4+1
+	if random_npc_spawn == 1:
+		 npc.set_pos(npc_pos_1.get_pos())
+	elif random_npc_spawn == 2:
+		 npc.set_pos(npc_pos_2.get_pos())
+	elif random_npc_spawn == 3:
+		 npc.set_pos(npc_pos_3.get_pos())
+	elif random_npc_spawn == 4:
+		 npc.set_pos(npc_pos_4.get_pos())
 	npc_container.add_child(npc)
 
 func game_over():
