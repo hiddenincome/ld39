@@ -7,17 +7,27 @@ onready var sprite = get_node("sprite")
 # var a = 2
 # var b = "textvar"
 
+var animation_name = ""
+var died = false
 var state = 0
 
 func dead():
 	move_timer.stop()
+	died = true
 	sprite.play("smoke")
 	
+
+func is_dead():
+	return died
 	
 	#sprite.set_frame(2)
 	
 	#queue_free()
 func _ready():
+	
+	animation_name = "npc_%d" % (randi() % 3 + 1)
+	
+	sprite.set_animation(animation_name)
 	
 	# Called every time the node is added to the scene.
 	# Initialization here
@@ -53,10 +63,22 @@ func _on_move_timer_timeout():
 
 
 func _on_sprite_finished():
-	sprite.set_animation("default")
+	sprite.set_animation(animation_name)
 	sprite.set_frame(2)
 	death_timer.start()
 
 
 func _on_death_timer_timeout():
 	queue_free()
+
+
+func _on_npc_area_enter( area ):
+	if area.get_name().find("game_over_1") >= 0:
+		#game_over()
+		queue_free()
+	elif area.get_name().find("game_over_2") >= 0:
+		queue_free()
+	elif area.get_name().find("game_over_3") >= 0:
+		queue_free()
+	elif area.get_name().find("game_over_4") >= 0:
+		queue_free()

@@ -82,9 +82,10 @@ onready var sample_player = get_node("sample_player")
 
 enum player_states {IDLE, RUNNING, PICKING, THROWING}
 var player_state = IDLE
-var enemy_total = 20
 
 var got_bottle = false
+var level = 1
+var npc_amount = 40
 var y_position = 1
 var x_position = 0
 var player_at_end = false
@@ -97,11 +98,11 @@ func _ready():
 	set_process(true)
 	set_process_input(true)
 	move_player()
+	randomize()
 	start_level()
 	update_number_signs()
 	update_lifes()
 	npc_spawn_timer.start()
-	randomize()
 	sample_player.play("background_1")
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
@@ -155,7 +156,7 @@ func _input(event):
 		player_at_end = true
 	elif x_position > 5:
 		player_at_end = false
-
+	print(available_bottles)
 		
 func move_player():
 	if player_state == IDLE or player_state == RUNNING:
@@ -172,26 +173,45 @@ func move_player():
 
 func start_level():
 	# Fill up the bottles
+	npc_amount = level * 20
+	var median = npc_amount / 4
+	var sum = 0 
+	for i in range(3):
+		var bottles_in_this_box = median + (randi() % 5 - 2)
+		available_bottles[i] = bottles_in_this_box
+		sum += bottles_in_this_box
 	
-	available_bottles[0] = 1
-	available_bottles[1] = 2
-	available_bottles[2] = 3
-	available_bottles[3] = 4
+	available_bottles[3] = npc_amount - sum
+	
+	
+	
+	#available_bottles[0] = 1
+	#available_bottles[1] = 2
+	#available_bottles[2] = 3
+	#available_bottles[3] = 4
 	
 	pass
 
 func _on_npc_spawn_timer_timeout():
-	var npc = npc_template.instance()
-	var random_npc_spawn = randi()%4+1
-	if random_npc_spawn == 1:
-		npc.set_pos(npc_pos_1.get_pos())
-	elif random_npc_spawn == 2:
-		npc.set_pos(npc_pos_2.get_pos())
-	elif random_npc_spawn == 3:
-		npc.set_pos(npc_pos_3.get_pos())
-	elif random_npc_spawn == 4:
-		npc.set_pos(npc_pos_4.get_pos())
-	npc_container.add_child(npc)
+	if npc_amount > 0:
+		var npc = npc_template.instance()
+		var random_npc_spawn = randi()%4+1
+		if random_npc_spawn == 1:
+			npc.set_pos(npc_pos_1.get_pos())
+			npc_amount -= 1
+		elif random_npc_spawn == 2:
+			npc.set_pos(npc_pos_2.get_pos())
+			npc_amount -= 1
+		elif random_npc_spawn == 3:
+			npc.set_pos(npc_pos_3.get_pos())
+			npc_amount -= 1
+		elif random_npc_spawn == 4:
+			npc.set_pos(npc_pos_4.get_pos())
+			npc_amount -= 1
+		npc_container.add_child(npc)
+		print(npc_amount)
+	elif npc_amount < 1:
+		pass
 
 func game_over():
 	print("game_over")
