@@ -48,13 +48,19 @@ onready var number_sign_1 = get_node("number_signs/sign_1")
 onready var number_sign_2 = get_node("number_signs/sign_2")
 onready var number_sign_3 = get_node("number_signs/sign_3")
 onready var number_sign_4 = get_node("number_signs/sign_4")
-
 onready var number_sign_container = [
 	number_sign_1,
 	number_sign_2,
 	number_sign_3,
 	number_sign_4
 ]
+
+onready var living_texture = preload("res://game/assets/player_8.png")
+onready var dead_texture = preload("res://game/assets/player_9.png")
+
+onready var life_1_sprite = get_node("lives/life_1")
+onready var life_2_sprite = get_node("lives/life_2")
+onready var life_3_sprite = get_node("lives/life_3")
 
 onready var box_positions = [
 	box_pos_1,
@@ -83,12 +89,15 @@ var player_at_end = false
 
 var available_bottles = [0, 0, 0, 0]
 
+var lifes = 3
+
 func _ready():
 	set_process(true)
 	set_process_input(true)
 	move_player()
 	start_level()
 	update_number_signs()
+	update_lifes()
 	npc_spawn_timer.start()
 	randomize()
 	#var bottle = bottle_template.instance()
@@ -183,6 +192,8 @@ func _on_npc_spawn_timer_timeout():
 
 func game_over():
 	print("game_over")
+	lifes -= 1
+	update_lifes()
 	
 
 func _on_game_over_1_area_enter( area ):
@@ -208,3 +219,22 @@ func update_number_signs():
 		else:
 			number_sign_container[i].set_texture(number_texture_container[9])
 	print(available_bottles)
+	
+func update_lifes():
+	if lifes == 3:
+		life_1_sprite.set_texture(living_texture)
+		life_2_sprite.set_texture(living_texture)
+		life_3_sprite.set_texture(living_texture)
+	elif lifes == 2:
+		life_1_sprite.set_texture(living_texture)
+		life_2_sprite.set_texture(living_texture)
+		life_3_sprite.set_texture(dead_texture)
+	elif lifes == 1:
+		life_1_sprite.set_texture(living_texture)
+		life_2_sprite.set_texture(dead_texture)
+		life_3_sprite.set_texture(dead_texture)
+	else:
+		life_1_sprite.set_texture(dead_texture)
+		life_2_sprite.set_texture(dead_texture)
+		life_3_sprite.set_texture(dead_texture)
+		

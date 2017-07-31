@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/background_1.png" type="Texture" id=2]
 [ext_resource path="res://game/player/player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/assets/number_signs_9.png" type="Texture" id=4]
+[ext_resource path="res://game/assets/player_8.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -202,6 +203,8 @@ _update_shape_index = 0
 
 [node name="number_signs" type="Node" parent="."]
 
+editor/display_folded = true
+
 [node name="sign_1" type="Sprite" parent="number_signs"]
 
 transform/pos = Vector2( 38.225, 187.45 )
@@ -221,6 +224,23 @@ texture = ExtResource( 4 )
 
 transform/pos = Vector2( 33.8144, 527.799 )
 texture = ExtResource( 4 )
+
+[node name="lives" type="Node" parent="."]
+
+[node name="life_1" type="Sprite" parent="lives"]
+
+transform/pos = Vector2( 903.5, 76.6387 )
+texture = ExtResource( 5 )
+
+[node name="life_2" type="Sprite" parent="lives"]
+
+transform/pos = Vector2( 960.979, 74.8426 )
+texture = ExtResource( 5 )
+
+[node name="life_3" type="Sprite" parent="lives"]
+
+transform/pos = Vector2( 1018.46, 75.4413 )
+texture = ExtResource( 5 )
 
 [connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
 
