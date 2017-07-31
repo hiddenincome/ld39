@@ -1,8 +1,28 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/background_1.png" type="Texture" id=2]
 [ext_resource path="res://game/player/player.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 9.19363, 19.0024 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
 
 [node name="game" type="Node"]
 
@@ -103,6 +123,80 @@ transform/pos = Vector2( 100.185, 454.497 )
 
 transform/pos = Vector2( 96.1123, 565.271 )
 
+[node name="game_over_1" type="Area2D" parent="."]
+
+transform/pos = Vector2( 173.888, 162.853 )
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="game_over_1"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="game_over_2" type="Area2D" parent="."]
+
+transform/pos = Vector2( 170.989, 280.411 )
+input/pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="game_over_2"]
+
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+[node name="game_over_3" type="Area2D" parent="."]
+
+transform/pos = Vector2( 175.817, 411.72 )
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="game_over_3"]
+
+shape = SubResource( 3 )
+trigger = false
+_update_shape_index = 0
+
+[node name="game_over_4" type="Area2D" parent="."]
+
+transform/pos = Vector2( 178.148, 524.743 )
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="game_over_4"]
+
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
 [connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
+
+[connection signal="area_enter" from="game_over_1" to="." method="_on_game_over_1_area_enter"]
 
 

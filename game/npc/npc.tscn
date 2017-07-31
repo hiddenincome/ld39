@@ -1,9 +1,20 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://game/npc/npc.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/Npc_1_non_make_upped.png" type="Texture" id=2]
 [ext_resource path="res://game/assets/Npc_non_make_upped_walk.png" type="Texture" id=3]
 [ext_resource path="res://game/assets/Npc_1_make_upped.png" type="Texture" id=4]
+[ext_resource path="res://game/assets/smoke_puff_00.png" type="Texture" id=5]
+[ext_resource path="res://game/assets/smoke_puff_01.png" type="Texture" id=6]
+[ext_resource path="res://game/assets/smoke_puff_02.png" type="Texture" id=7]
+[ext_resource path="res://game/assets/smoke_puff_03.png" type="Texture" id=8]
+[ext_resource path="res://game/assets/smoke_puff_04.png" type="Texture" id=9]
+[ext_resource path="res://game/assets/smoke_puff_05.png" type="Texture" id=10]
+[ext_resource path="res://game/assets/smoke_puff_06.png" type="Texture" id=11]
+[ext_resource path="res://game/assets/smoke_puff_07.png" type="Texture" id=12]
+[ext_resource path="res://game/assets/smoke_puff_08.png" type="Texture" id=13]
+[ext_resource path="res://game/assets/smoke_puff_09.png" type="Texture" id=14]
+[ext_resource path="res://game/assets/smoke_puff_10.png" type="Texture" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -14,9 +25,14 @@ extents = Vector2( 19.3521, 20.1036 )
 
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
-"loop": true,
+"loop": false,
 "name": "default",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ) ],
+"loop": false,
+"name": "smoke",
+"speed": 20.0
 } ]
 
 [node name="npc" type="Area2D"]
@@ -50,6 +66,17 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
+[node name="death_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.3
+one_shot = false
+autostart = false
+
+[connection signal="finished" from="sprite" to="." method="_on_sprite_finished"]
+
 [connection signal="timeout" from="move_timer" to="." method="_on_move_timer_timeout"]
+
+[connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
 
 

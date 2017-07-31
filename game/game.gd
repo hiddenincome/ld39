@@ -97,7 +97,11 @@ func _input(event):
 	elif event.is_action_pressed("player_fire") and not got_bottle and player_at_end:
 		player_state = PICKING
 		player.play_picking()
-		got_bottle = true
+		if available_bottles[y_position-1] > 0:
+			available_bottles[y_position-1] -= 1
+			got_bottle = true
+		elif available_bottles[y_position-1] <0:
+			got_bottle = false
 	if x_position < 5:
 		player_at_end = true
 	elif x_position > 5:
@@ -132,3 +136,23 @@ func _on_npc_spawn_timer_timeout():
 	var npc = npc_template.instance()
 	npc.set_pos(npc_pos_1.get_pos())
 	npc_container.add_child(npc)
+
+func game_over():
+	print("game_over")
+	
+
+func _on_game_over_1_area_enter( area ):
+	if area.get_name().find("npc") >= 0:
+		game_over()
+		
+func _on_game_over_2_area_enter( area ):
+	if area.get_name().find("npc") >= 0:
+		game_over()
+		
+func _on_game_over_3_area_enter( area ):
+	if area.get_name().find("npc") >= 0:
+		game_over()
+
+func _on_game_over_4_area_enter( area ):
+	if area.get_name().find("npc") >= 0:
+		game_over()

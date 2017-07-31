@@ -1,6 +1,6 @@
 extends Area2D
 
-
+onready var death_timer = get_node("death_timer")
 onready var move_timer = get_node("move_timer")
 onready var sprite = get_node("sprite")
 # class member variables go here, for example:
@@ -11,8 +11,12 @@ var state = 0
 
 func dead():
 	move_timer.stop()
-	sprite.set_frame(2)
-
+	sprite.play("smoke")
+	
+	
+	#sprite.set_frame(2)
+	
+	#queue_free()
 func _ready():
 	
 	# Called every time the node is added to the scene.
@@ -46,3 +50,13 @@ func _on_move_timer_timeout():
 		set_pos(get_pos() + Vector2(-15,0))
 	elif state == 7:
 		pass
+
+
+func _on_sprite_finished():
+	sprite.set_animation("default")
+	sprite.set_frame(2)
+	death_timer.start()
+
+
+func _on_death_timer_timeout():
+	queue_free()

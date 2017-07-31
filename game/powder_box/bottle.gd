@@ -9,6 +9,6 @@ func _process(delta):
 
 
 func _on_bottle_area_enter( area ):
-	if area.get_name().find("npc") == 0:
+	if area.get_name().find("npc") >= 0:
 		queue_free()
 		area.dead()
