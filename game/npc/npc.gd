@@ -10,12 +10,15 @@ signal life_lost
 var animation_name = ""
 var died = false
 var state = 0
+var npc_level = 1
 
 func dead():
 	move_timer.stop()
 	died = true
 	sprite.play("smoke")
 	
+func set_level(level):
+	npc_level = level
 
 func is_dead():
 	return died
@@ -25,7 +28,7 @@ func is_dead():
 	
 	#queue_free()
 func _ready():
-	
+	move_timer.set_wait_time(clamp(0.1 - 0.01 * npc_level, 0.05, 0.1))
 	animation_name = "npc_%d" % (randi() % 3 + 1)
 	
 	sprite.set_animation(animation_name)
