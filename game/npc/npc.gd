@@ -6,7 +6,7 @@ onready var sprite = get_node("sprite")
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
-
+signal life_lost
 var animation_name = ""
 var died = false
 var state = 0
@@ -22,6 +22,7 @@ func is_dead():
 	
 	#sprite.set_frame(2)
 	
+	
 	#queue_free()
 func _ready():
 	
@@ -32,6 +33,8 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	move_timer.start()
+
+
 
 func _process(delta):
 	pass
@@ -74,11 +77,14 @@ func _on_death_timer_timeout():
 
 func _on_npc_area_enter( area ):
 	if area.get_name().find("game_over_1") >= 0:
-		#game_over()
+		emit_signal("life_lost")
 		queue_free()
 	elif area.get_name().find("game_over_2") >= 0:
+		emit_signal("life_lost")
 		queue_free()
 	elif area.get_name().find("game_over_3") >= 0:
+		emit_signal("life_lost")
 		queue_free()
 	elif area.get_name().find("game_over_4") >= 0:
+		emit_signal("life_lost")
 		queue_free()

@@ -5,6 +5,11 @@ onready var bottle = get_node("bottle")
 
 var animating = false
 
+
+
+
+	
+
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
