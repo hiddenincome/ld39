@@ -31,6 +31,7 @@ onready var number_texture_6 = preload("res://game/assets/number_signs_6.png")
 onready var number_texture_7 = preload("res://game/assets/number_signs_7.png")
 onready var number_texture_8 = preload("res://game/assets/number_signs_8.png")
 onready var number_texture_9 = preload("res://game/assets/number_signs_9.png")
+onready var number_texture_10 = preload("res://game/assets/number_sign_9+_0.png")
 onready var number_texture_container = [
 	number_texture_0, 
 	number_texture_1, 
@@ -41,7 +42,8 @@ onready var number_texture_container = [
 	number_texture_6, 
 	number_texture_7, 
 	number_texture_8, 
-	number_texture_9
+	number_texture_9,
+	number_texture_10
 ]
 
 onready var number_sign_1 = get_node("number_signs/sign_1")
@@ -120,7 +122,7 @@ func _ready():
 	game_over_sign.hide()
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
-	#bottle_container.add_child(bottle)
+	#bottle_containzser.add_child(bottle)
 
 func _process(delta):
 	
@@ -274,10 +276,10 @@ func _on_npc_spawn_timer_timeout():
 	
 func update_number_signs():
 	for i in range(4):
-		if available_bottles[i] <= 9:
+		if available_bottles[i] <= 10:
 			number_sign_container[i].set_texture(number_texture_container[available_bottles[i]])
 		else:
-			number_sign_container[i].set_texture(number_texture_container[9])
+			number_sign_container[i].set_texture(number_texture_container[10])
 	
 func show_lives():
 	if lives == 3:
