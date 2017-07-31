@@ -96,6 +96,7 @@ var game_state = GAME_IDLE
 var got_bottle = false
 var level = 1
 var npc_amount = 40
+var npc_must_drop_bottles = 5
 var y_position = 1
 var x_position = 0
 var player_at_end = false
@@ -138,7 +139,6 @@ func _process(delta):
 		player_state = IDLE
 
 	move_player()
-	#print(got_bottle)
 
 	if not player_state == PICKING and x_position < 10:
 		player_state = IDLE
@@ -196,7 +196,6 @@ func _input(event):
 		player_at_end = true
 	elif x_position > 5:
 		player_at_end = false
-	print(available_bottles)
 		
 func move_player():
 	if player_state == IDLE or player_state == RUNNING_LEFT or player_state == RUNNING_RIGHT:
@@ -270,7 +269,6 @@ func _on_npc_spawn_timer_timeout():
 			npc.set_pos(npc_pos_4.get_pos())
 			npc_amount -= 1
 		npc_container.add_child(npc)
-		print(npc_amount)
 	elif npc_amount < 1:
 		pass
 	
@@ -280,7 +278,6 @@ func update_number_signs():
 			number_sign_container[i].set_texture(number_texture_container[available_bottles[i]])
 		else:
 			number_sign_container[i].set_texture(number_texture_container[9])
-	print(available_bottles)
 	
 func show_lives():
 	if lives == 3:
