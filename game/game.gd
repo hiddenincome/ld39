@@ -21,6 +21,40 @@ onready var box_pos_2 = get_node("box_pos_2")
 onready var box_pos_3 = get_node("box_pos_3")
 onready var box_pos_4 = get_node("box_pos_4")
 
+onready var number_texture_0 = preload("res://game/assets/number_signs_0.png")
+onready var number_texture_1 = preload("res://game/assets/number_signs_1.png")
+onready var number_texture_2 = preload("res://game/assets/number_signs_2.png")
+onready var number_texture_3 = preload("res://game/assets/number_signs_3.png")
+onready var number_texture_4 = preload("res://game/assets/number_signs_4.png")
+onready var number_texture_5 = preload("res://game/assets/number_signs_5.png")
+onready var number_texture_6 = preload("res://game/assets/number_signs_6.png")
+onready var number_texture_7 = preload("res://game/assets/number_signs_7.png")
+onready var number_texture_8 = preload("res://game/assets/number_signs_8.png")
+onready var number_texture_9 = preload("res://game/assets/number_signs_9.png")
+onready var number_texture_container = [
+	number_texture_0, 
+	number_texture_1, 
+	number_texture_2, 
+	number_texture_3, 
+	number_texture_4, 
+	number_texture_5, 
+	number_texture_6, 
+	number_texture_7, 
+	number_texture_8, 
+	number_texture_9
+]
+
+onready var number_sign_1 = get_node("number_signs/sign_1")
+onready var number_sign_2 = get_node("number_signs/sign_2")
+onready var number_sign_3 = get_node("number_signs/sign_3")
+onready var number_sign_4 = get_node("number_signs/sign_4")
+
+onready var number_sign_container = [
+	number_sign_1,
+	number_sign_2,
+	number_sign_3,
+	number_sign_4
+]
 
 onready var box_positions = [
 	box_pos_1,
@@ -42,7 +76,7 @@ enum player_states {IDLE, RUNNING, PICKING, THROWING}
 var player_state = IDLE
 var enemy_total = 20
 
-var got_bottle = true
+var got_bottle = false
 var y_position = 1
 var x_position = 0
 var player_at_end = false
@@ -54,6 +88,7 @@ func _ready():
 	set_process_input(true)
 	move_player()
 	start_level()
+	update_number_signs()
 	npc_spawn_timer.start()
 	randomize()
 	#var bottle = bottle_template.instance()
@@ -101,6 +136,7 @@ func _input(event):
 		if available_bottles[y_position-1] > 0:
 			available_bottles[y_position-1] -= 1
 			got_bottle = true
+			update_number_signs()
 		elif available_bottles[y_position-1] <0:
 			got_bottle = false
 	if x_position < 5:
@@ -164,3 +200,11 @@ func _on_game_over_3_area_enter( area ):
 func _on_game_over_4_area_enter( area ):
 	if area.get_name().find("npc") >= 0:
 		game_over()
+		
+func update_number_signs():
+	for i in range(4):
+		if available_bottles[i] <= 9:
+			number_sign_container[i].set_texture(number_texture_container[available_bottles[i]])
+		else:
+			number_sign_container[i].set_texture(number_texture_container[9])
+	print(available_bottles)
