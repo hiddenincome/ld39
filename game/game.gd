@@ -55,6 +55,7 @@ func _ready():
 	move_player()
 	start_level()
 	npc_spawn_timer.start()
+	randomize()
 	#var bottle = bottle_template.instance()
 	#bottle.set_pos(bottle_pos_1.get_pos())
 	#bottle_container.add_child(bottle)
