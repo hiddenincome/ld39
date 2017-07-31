@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://game/splash/splash.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/splash.png" type="Texture" id=2]
 [ext_resource path="res://game/assets/kenpixel.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://game/assets/intro.smp" type="Sample" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -10,6 +11,15 @@ font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 3 )
+
+[sub_resource type="SampleLibrary" id=2]
+
+samples/intro = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 4 )
+}
 
 [node name="splash" type="Node"]
 
@@ -85,6 +95,17 @@ playback/process_mode = 1
 playback/active = false
 playback/repeat = false
 playback/speed = 1.0
+
+[node name="sample_player" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 2 )
+config/pitch_random = 0.0
 
 [connection signal="tween_complete" from="text_1_effect" to="." method="_on_text_1_effect_tween_complete"]
 
