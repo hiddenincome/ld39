@@ -110,7 +110,7 @@ func _process(delta):
 		if not player.is_animating():
 			player_state = IDLE
 	if player_state == IDLE:
-		player.play_idle()
+		player.play_idle(got_bottle)
 		
 		
 				
