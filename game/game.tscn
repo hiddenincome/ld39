@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=1]
+[gd_scene load_steps=17 format=1]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/assets/background_1.png" type="Texture" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://game/assets/number_signs_9.png" type="Texture" id=4]
 [ext_resource path="res://game/assets/player_8.png" type="Texture" id=5]
 [ext_resource path="res://game/assets/background_1.smp" type="Sample" id=6]
-[ext_resource path="res://game/assets/kenpixel.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://game/game_over/game_over.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/assets/intro.smp" type="Sample" id=7]
+[ext_resource path="res://game/assets/kenpixel.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://game/game_over/game_over.tscn" type="PackedScene" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -37,20 +38,26 @@ samples/background_1 = {
 "priority": 0,
 "sample": ExtResource( 6 )
 }
+samples/intro = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 7 )
+}
 
 [sub_resource type="DynamicFont" id=6]
 
 font/size = 96
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 7 )
+font/font = ExtResource( 8 )
 
 [sub_resource type="DynamicFont" id=7]
 
 font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 7 )
+font/font = ExtResource( 8 )
 
 [node name="game" type="Node"]
 
@@ -325,7 +332,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="game_over_sign" parent="." instance=ExtResource( 8 )]
+[node name="game_over_sign" parent="." instance=ExtResource( 9 )]
 
 transform/pos = Vector2( 256, 140 )
 

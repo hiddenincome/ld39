@@ -169,6 +169,11 @@ func _process(delta):
 			_on_life_lost()
 
 func _input(event):
+
+	if game_state == GAME_OVER:
+		if event.type == InputEvent.KEY:
+			start_game()
+		return
 	
 	if game_state != GAME_RUNNING:
 		return	
@@ -218,6 +223,7 @@ func move_player():
 		player.set_pos(box_positions[y_position-1].get_pos())
 
 func start_game():
+	sample_player.play("background_1")
 	lives = 3
 	start_level()
 	game_state = GAME_RUNNING
@@ -256,6 +262,7 @@ func _on_life_lost():
 		npc_spawn_timer.stop()
 		game_over_sign.show()
 		remove_instances()
+		sample_player.play("intro")
 	else:
 		start_level()
 	
