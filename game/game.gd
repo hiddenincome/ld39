@@ -213,6 +213,7 @@ func _on_npc_spawn_timer_timeout():
 		var npc = npc_template.instance()
 		var random_npc_spawn = randi()%4+1
 		npc.connect("life_lost", self, "_on_life_lost")
+		npc.set_level(level)
 		if random_npc_spawn == 1:
 			npc.set_pos(npc_pos_1.get_pos())
 			npc_amount -= 1
