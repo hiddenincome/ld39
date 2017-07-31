@@ -65,7 +65,7 @@ autostart = false
 
 [node name="background" type="Sprite" parent="."]
 
-transform/pos = Vector2( 512, 320 )
+transform/pos = Vector2( 512, 319.337 )
 texture = ExtResource( 2 )
 
 [node name="player_pos_1" type="Position2D" parent="."]
@@ -293,9 +293,9 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 336.0
+margin/left = 337.0
 margin/top = 248.0
-margin/right = 744.0
+margin/right = 745.0
 margin/bottom = 392.0
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0.890625, 0.958984, 1, 1 )
@@ -329,7 +329,7 @@ max_lines_visible = -1
 
 [node name="game_over_sign" parent="." instance=ExtResource( 8 )]
 
-transform/pos = Vector2( 351.615, 180.452 )
+transform/pos = Vector2( 256, 160 )
 
 [connection signal="timeout" from="npc_spawn_timer" to="." method="_on_npc_spawn_timer_timeout"]
 
