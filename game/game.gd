@@ -166,6 +166,7 @@ func _process(delta):
 	for bottle in bottle_container.get_children():
 		if bottle.get_pos().x > 1100:
 			bottle.queue_free()
+			_on_life_lost()
 
 func _input(event):
 	
